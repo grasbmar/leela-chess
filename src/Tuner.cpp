@@ -195,7 +195,7 @@ static float compare_ref(std::vector<float> &x, std::vector<float> &ref,
     return sum / (m*n);
 }
 
-Tuner::get_tune_opts()
+std::vector Tuner::get_tune_opts()
 {
   auto opts = std::vector<Configurations>();
   if (cfg_sgemm_exhaustive) {
