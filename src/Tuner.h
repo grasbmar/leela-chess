@@ -42,17 +42,8 @@ public:
     static constexpr auto TUNER_VERSION = 0;
     Tuner(OpenCL & opencl, cl::Context context, cl::Device device) :
         m_opencl(opencl), m_context(context), m_device(device) {}
-    void set_sgemm_opts_exhaustive(std::vector<masterproto::order_item_part> &part);
-    
-    void set_sgemm_opts(auto opts);
-
-    void get_tune_opts(auto opts);
-
-    void get_tune_opts(auto opts);
 
     std::vector get_tune_opts();
-
-    void parse_tune_params(auto valid_params, auto m_ceil_prev, auto at_size, auto n_ceil_prev, auto total_flops, auto cBuffer, auto b_size, auto opts, auto at, auto queue, auto event, const int n, const int batch_size, std::string best_params, auto c_size, const int k, auto best_time, auto c, const int m, auto program, auto b, auto bBuffer, const int runs, auto c_ref, auto k_ceil_prev, auto aBuffer);
 
 private:
     void store_sgemm_tuners(const int m, const int n, const int k,
