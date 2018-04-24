@@ -4973,10 +4973,10 @@ private:
   cl::size_type m_depth;
 }
 
-class Transform
+class Transform3D
 {
 public:
-  Transform()
+  Transform3D()
   {
     m_row_pitch = 0;
     m_slice_pitch = 0;
@@ -5014,7 +5014,7 @@ public:
         const Context& context,
         cl_mem_flags flags,
         ImageFormat format,
-        Transform transform,
+        Transform3D transform,
         void* host_ptr = NULL,
         cl_int* err = NULL)
     {
