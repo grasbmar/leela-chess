@@ -4983,7 +4983,7 @@ public:
   }
 
   // Use setter and getter instead direct use of variables to prepare place for lockmutex in future if we switch to multithreading
-  cl::size_type get_volume() { return m_volme };
+  cl::size_type get_volume() { return m_volume };
   cl::size_type get_row_pitch() { return m_row_pitch; }
   cl::size_type get_slice_pitch() { return m_slice_pitch };
 
