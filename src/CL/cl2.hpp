@@ -4942,6 +4942,61 @@ public:
 };
 #endif // #if CL_HPP_TARGET_OPENCL_VERSION >= 120
 
+class Vector3D
+{
+public:
+  Vecctor3D()
+  {
+    m_width = 0;
+    m_height = 0;
+    m_depth = 0;
+  }
+
+  Vector3D(cl::size_type width, cl::size_type height, cl::size_type depth)
+  {
+    m_width = width;
+    m_height = height;
+    m_depth = depth;
+  }
+
+  cl::size_type get_width(){ return volume.get_width(); }
+  cl::size_type get_height() { return volume.get_height(); }
+  cl::size_type get_depth() { return volume.get_depth(); }
+
+  void set_width(size_type width) { m_width = width; }
+  void set_height(size_type height) { m_height = height; }
+  void set_depth(size_type depth) { m_depth = depth };
+
+private:
+  cl::size_type m_width;
+  cl::size_type m_height;
+  cl::size_type m_depth;
+}
+
+class Transform
+{
+public:
+  Transform()
+  {
+    m_row_pitch = 0;
+    m_slice_pitch = 0;
+  }
+
+  // Use setter and getter instead direct use of variables to prepare place for lockmutex in future if we switch to multithreading
+  cl::size_type get_volume() { return m_volme };
+  cl::size_type get_row_pitch() { return m_row_pitch; }
+  cl::size_type get_slice_pitch() { return m_slice_pitch };
+
+  void set_volume( Vector3D volume) { m_volume = volume; }
+  void set_row_pitch(size_type row_pitch) { m_row_pitch = pitch };
+  void set_slice_pitch(size_type slice_pitch){ m_slice_pitch = slice_pitch};
+
+private:
+  Vector3D m_volume;
+  cl::size_type m_row_pitch;
+  cl::size_type m_slice_pitch;
+};
+
 /*! \brief Class interface for 3D Image Memory objects.
  *
  *  See Memory for details about copy semantics, etc.
@@ -4959,11 +5014,7 @@ public:
         const Context& context,
         cl_mem_flags flags,
         ImageFormat format,
-        size_type width,
-        size_type height,
-        size_type depth,
-        size_type row_pitch = 0,
-        size_type slice_pitch = 0,
+        Transform transform,
         void* host_ptr = NULL,
         cl_int* err = NULL)
     {
@@ -4988,12 +5039,12 @@ public:
             cl_image_desc desc =
             {
                 CL_MEM_OBJECT_IMAGE3D,
-                width,
-                height,
-                depth,
+                transform.get_volume().get_width(),
+                trasnform.get_volume().get_height(),
+                transform.get_volume().get_depth(),
                 0,      // array size (unused)
-                row_pitch,
-                slice_pitch,
+                transform.get_row_pitch(),
+                trasnform.slice_pitch(),
                 0, 0, 0
             };
             object_ = ::clCreateImage(
